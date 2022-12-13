@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class WelcomeController {
 
     @GetMapping("/")
-    public String welcome() {
+    public String root() {
         return "Welcome to Spring";
     }
 
     @GetMapping("/hello")
-    public String sayHello(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
+    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
         return String.format("Hello, %s!", name);
     }
+
 }

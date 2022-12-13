@@ -3,6 +3,7 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'com.adarshr.test-logger' version '3.0.0'
   id 'application'
+  id 'checkstyle'
 }
 
 repositories {
@@ -30,5 +31,20 @@ application {
   mainClass = 'exercise.App'
 }
 
+checkstyle {
+  toolVersion '8.41'
+}
+
+
 task stage(dependsOn: ['clean', 'installDist'])
 installDist.mustRunAfter clean
+
+task checkExercises (type: Checkstyle) {
+  file('.').eachDir { course ->
+    def exercise = project.hasProperty('exercise') ? project.exercise : ''
+    source course.name + '/' + exercise
+    include '**/*.java'
+    exclude '**/build/**'
+    classpath = files()
+  }
+}

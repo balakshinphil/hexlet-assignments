@@ -41,7 +41,7 @@ public class CustomBeanPostProcessor implements BeanPostProcessor {
         String level = loggingLevels.get(beanName);
 
         return Proxy.newProxyInstance(beanClass.getClassLoader(), beanClass.getInterfaces(), (proxy, method, args) -> {
-                    String message = String.format("Was called method: %s with arguments: %s", method.getName(), Arrays.toString(args));
+                    String message = String.format("Was called method: %s() with arguments: %s", method.getName(), Arrays.toString(args));
                     if (level.equals("info")) {
                         log.info(message);
                     } else {

@@ -39,13 +39,11 @@ public class CommentService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Post with id: %s not found!", postId)));
 
         comment.setPost(post);
-
-        post.getComments().add(commentRepository.save(comment));
-        postRepository.save(post);
+        commentRepository.save(comment);
     }
 
     public void updateComment(Long postId, Long commentId, Comment comment) {
-        Post post = postRepository.findById(postId)
+        postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Post with id: %s not found!", postId)));
         Comment oldComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Comment with id: %s not found!", commentId)));
@@ -55,15 +53,11 @@ public class CommentService {
     }
 
     public void deleteComment(Long postId, Long commentId) {
-        Post post = postRepository.findById(postId)
+        postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Post with id: %s not found!", postId)));
         Comment comment = commentRepository.findFirstByIdAndPostId(commentId, postId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Comment with id: %s not found!", commentId)));
 
-
-        post.getComments().remove(comment);
-
-        postRepository.save(post);
         commentRepository.delete(comment);
     }
 
